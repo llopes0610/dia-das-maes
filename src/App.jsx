@@ -29,51 +29,56 @@ export default function App() {
   };
 
   const handlePrint = () => {
-  // Remove iframe anterior se existir
-  const old = document.getElementById("print-frame");
-  if (old) old.remove();
+    const old = document.getElementById("print-frame");
+    if (old) old.remove();
 
-  const iframe = document.createElement("iframe");
-  iframe.id = "print-frame";
-  iframe.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:-1;opacity:0;";
-  document.body.appendChild(iframe);
+    const iframe = document.createElement("iframe");
+    iframe.id = "print-frame";
+    iframe.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:-1;opacity:0;";
+    document.body.appendChild(iframe);
 
-  const imageFullUrl = `${window.location.origin}${IMAGE_PATH}`;
+    const imageFullUrl = `${window.location.origin}${IMAGE_PATH}`;
 
-  iframe.contentDocument.write(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <style>
-          * { margin: 0; padding: 0; box-sizing: border-box; }
-          body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-          }
-          img {
-            width: 100%;
-            height: auto;
-            display: block;
-          }
-          @page { margin: 0; }
-        </style>
-      </head>
-      <body>
-        <img src="${imageFullUrl}" />
-      </body>
-    </html>
-  `);
-  iframe.contentDocument.close();
+    iframe.contentDocument.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body {
+              width: 100%;
+              height: 100%;
+              background: white;
+            }
+            img {
+              display: block;
+              width: 100%;
+              height: 100vh;
+              max-height: 100vh;
+              object-fit: contain;
+              page-break-inside: avoid;
+              break-inside: avoid;
+            }
+            @page {
+              margin: 0;
+              size: auto;
+            }
+          </style>
+        </head>
+        <body>
+          <img src="${imageFullUrl}" />
+        </body>
+      </html>
+    `);
+    iframe.contentDocument.close();
 
-  iframe.onload = () => {
-    setTimeout(() => {
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-    }, 600);
+    iframe.onload = () => {
+      setTimeout(() => {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+      }, 600);
+    };
   };
-};
 
   return (
     <>
@@ -191,7 +196,6 @@ export default function App() {
         }
       `}</style>
 
-      {/* Pétalas decorativas */}
       {[...Array(7)].map((_, i) => (
         <div
           key={i}
@@ -225,10 +229,9 @@ export default function App() {
           alignItems: 'center',
         }}>
 
-          {/* LADO ESQUERDO — Texto */}
+          {/* LADO ESQUERDO */}
           <div style={{ textAlign: 'center' }} className="fade-in">
 
-            {/* Badge */}
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -252,7 +255,6 @@ export default function App() {
               </span>
             </div>
 
-            {/* Título */}
             <h1 style={{
               fontFamily: "'Playfair Display', serif",
               fontSize: 'clamp(56px, 8vw, 84px)',
@@ -292,7 +294,6 @@ export default function App() {
               Uma homenagem especial preparada com carinho para cada mãe da nossa comunidade.
             </p>
 
-            {/* Botões */}
             <div className="no-print" style={{
               display: 'flex',
               gap: '12px',
@@ -310,7 +311,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* Rodapé */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
