@@ -305,10 +305,6 @@ export default function App() {
                 <Download size={17} />
                 {downloaded ? "Baixado! ✓" : "Baixar imagem"}
               </button>
-              <button className="btn-print" onClick={handlePrint}>
-                <Printer size={17} />
-                Imprimir
-              </button>
             </div>
 
             <div style={{
@@ -385,7 +381,7 @@ export default function App() {
                 color: '#b09088',
                 lineHeight: 1.6,
               }}>
-                para baixar ou imprimir a homenagem
+                para baixar a homenagem
               </p>
             </div>
           </div>
