@@ -28,7 +28,48 @@ export default function App() {
     }
   };
 
-  const handlePrint = () => window.print();
+  const handlePrint = () => {
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Dia das Mães - IP Ocian</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: white;
+          }
+          img {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+          }
+          @media print {
+            body { margin: 0; }
+            img { width: 100%; height: auto; }
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${window.location.origin}${IMAGE_PATH}" />
+        <script>
+          window.onload = function() {
+            setTimeout(() => {
+              window.print();
+              window.close();
+            }, 500);
+          };
+        </script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+};
 
   return (
     <>
