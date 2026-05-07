@@ -29,46 +29,50 @@ export default function App() {
   };
 
   const handlePrint = () => {
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`
+  // Remove iframe anterior se existir
+  const old = document.getElementById("print-frame");
+  if (old) old.remove();
+
+  const iframe = document.createElement("iframe");
+  iframe.id = "print-frame";
+  iframe.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;border:none;z-index:-1;opacity:0;";
+  document.body.appendChild(iframe);
+
+  const imageFullUrl = `${window.location.origin}${IMAGE_PATH}`;
+
+  iframe.contentDocument.write(`
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Dia das Mães - IP Ocian</title>
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             background: white;
           }
           img {
-            max-width: 100%;
-            max-height: 100vh;
-            object-fit: contain;
+            width: 100%;
+            height: auto;
+            display: block;
           }
-          @media print {
-            body { margin: 0; }
-            img { width: 100%; height: auto; }
-          }
+          @page { margin: 0; }
         </style>
       </head>
       <body>
-        <img src="${window.location.origin}${IMAGE_PATH}" />
-        <script>
-          window.onload = function() {
-            setTimeout(() => {
-              window.print();
-              window.close();
-            }, 500);
-          };
-        </script>
+        <img src="${imageFullUrl}" />
       </body>
     </html>
   `);
-  printWindow.document.close();
+  iframe.contentDocument.close();
+
+  iframe.onload = () => {
+    setTimeout(() => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    }, 600);
+  };
 };
 
   return (
