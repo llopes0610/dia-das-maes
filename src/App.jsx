@@ -264,7 +264,7 @@ export default function App() {
               marginBottom: '4px',
               letterSpacing: '-0.01em',
             }}>
-              Dia das
+              Dia de Gratidão à Deus
             </h1>
             <h1 style={{
               fontFamily: "'Playfair Display', serif",
@@ -276,7 +276,7 @@ export default function App() {
               marginBottom: '28px',
               letterSpacing: '-0.01em',
             }}>
-              Mães
+              pelas Mães
             </h1>
 
             <div className="divider" style={{ marginBottom: '28px' }} />
